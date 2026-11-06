@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.petstore'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    serenityVersion = '4.0.12'
+    cucumberVersion = '7.14.0'
+}
+
+dependencies {
+    // Serenity BDD, Screenplay y Rest
+    implementation "net.serenity-bdd:serenity-core:${serenityVersion}"
+    implementation "net.serenity-bdd:serenity-rest:${serenityVersion}"
+    implementation "net.serenity-bdd:serenity-screenplay:${serenityVersion}"
+    implementation "net.serenity-bdd:serenity-screenplay-rest:${serenityVersion}"
+
+    // Serenity Cucumber
+    implementation "net.serenity-bdd:serenity-cucumber6:${serenityVersion}"
+    implementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    implementation "io.cucumber:cucumber-junit-platform-engine:${cucumberVersion}"
+
+    // JUnit 5 Platform
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    runtimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+
+    // Apache POI para leer Excel (.xlsx)
+    implementation 'org.apache.poi:poi:5.2.3'
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+    // Logging
+    implementation 'org.slf4j:slf4j-simple:2.0.7'
+}
+
+test {
+    useJUnitPlatform()
+    systemProperties['file.encoding'] = 'UTF-8'
+    // Asegura que las propiedades del sistema de Serenity se pasen a las pruebas
+    systemProperties['project.build.directory'] = buildDir
+}
+
+gradle.startParameter.continueOnFailure = true
