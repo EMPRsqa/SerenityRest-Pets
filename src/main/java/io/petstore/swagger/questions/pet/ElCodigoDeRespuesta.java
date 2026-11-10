@@ -6,12 +6,12 @@ import net.serenitybdd.screenplay.Question;
 
 public class ElCodigoDeRespuesta implements Question<Integer> {
 
-    public static ElCodigoDeRespuesta es() {
-        return new ElCodigoDeRespuesta();
-    }
-
     @Override
     public Integer answeredBy(Actor actor) {
         return SerenityRest.lastResponse().statusCode();
+    }
+
+    public static ElCodigoDeRespuesta Es() {
+        return new ElCodigoDeRespuesta();
     }
 }

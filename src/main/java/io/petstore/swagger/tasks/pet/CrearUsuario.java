@@ -13,7 +13,7 @@ public class CrearUsuario implements Task {
         this.user = user;
     }
 
-    public static CrearUsuario conLosDatos(UserModel user) {
+    public static CrearUsuario ConLosDatos(UserModel user) {
         return Tasks.instrumented(CrearUsuario.class, user);
     }
 

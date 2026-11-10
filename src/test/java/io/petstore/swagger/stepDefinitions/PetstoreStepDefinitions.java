@@ -8,12 +8,10 @@ import io.petstore.swagger.tasks.pet.CrearUsuario;
 import io.petstore.swagger.utils.ExcelReader;
 import io.cucumber.java.Before;
 import io.cucumber.java.es.Dado;
-import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Cuando;
-import net.serenitybdd.screenplay.Actor;
+import io.cucumber.java.es.Entonces;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.actors.OnlineCast;
-import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
 import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
@@ -28,7 +26,6 @@ public class PetstoreStepDefinitions {
 
     @Before
     public void setTheStage() {
-        // Inicializa el escenario para que Serenity reconozca los actores
         OnStage.setTheStage(new OnlineCast());
     }
 
@@ -46,28 +43,28 @@ public class PetstoreStepDefinitions {
     @Cuando("realiza la solicitud para crear el usuario")
     public void realizaLaSolicitudParaCrearElUsuario() {
         theActorInTheSpotlight().attemptsTo(
-                CrearUsuario.conLosDatos(testUser)
+                CrearUsuario.ConLosDatos(testUser)
         );
     }
 
     @Cuando("realiza la solicitud para consultar el usuario creado")
     public void realizaLaSolicitudParaConsultarElUsuarioCreado() {
         theActorInTheSpotlight().attemptsTo(
-                ConsultarUsuario.conElUsername(testUser.getUsername())
+                ConsultarUsuario.ConElUsername(testUser.getUsername())
         );
     }
 
     @Cuando("realiza la solicitud para actualizar el usuario")
     public void realizaLaSolicitudParaActualizarElUsuario() {
         theActorInTheSpotlight().attemptsTo(
-                ActualizarUsuario.conLosDatos(testUser.getUsername(), testUser)
+                ActualizarUsuario.ConLosDatos(testUser.getUsername(), testUser)
         );
     }
 
     @Entonces("el código de respuesta HTTP debe ser {int}")
     public void elCodigoDeRespuestaHttpDebeSer(int statusCodeEsperado) {
         theActorInTheSpotlight().should(
-                seeThat("El código de estado de la respuesta", ElCodigoDeRespuesta.es(), equalTo(statusCodeEsperado))
+                seeThat("El código de estado de la respuesta", ElCodigoDeRespuesta.Es(), equalTo(statusCodeEsperado))
         );
     }
 }

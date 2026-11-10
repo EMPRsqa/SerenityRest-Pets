@@ -15,7 +15,7 @@ public class ActualizarUsuario implements Task {
         this.user = user;
     }
 
-    public static ActualizarUsuario conLosDatos(String username, UserModel user) {
+    public static ActualizarUsuario ConLosDatos(String username, UserModel user) {
         return Tasks.instrumented(ActualizarUsuario.class, username, user);
     }
 

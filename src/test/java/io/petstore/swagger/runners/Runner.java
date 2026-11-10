@@ -6,8 +6,8 @@ import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
-        features = "src/test/resources/features",
-        glue = "io.petstore.swagger.stepsDefinitions", // <-- Debe coincidir exactamente con el nombre de tu paquete
+        features = "src/test/resources/features/petstore_user.feature",
+        glue = "io.petstore.swagger.stepDefinitions",
         snippets = CucumberOptions.SnippetType.CAMELCASE
 )
 public class Runner {

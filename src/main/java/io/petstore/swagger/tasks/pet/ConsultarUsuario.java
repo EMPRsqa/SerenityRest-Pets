@@ -12,7 +12,7 @@ public class ConsultarUsuario implements Task {
         this.username = username;
     }
 
-    public static ConsultarUsuario conElUsername(String username) {
+    public static ConsultarUsuario ConElUsername(String username) {
         return Tasks.instrumented(ConsultarUsuario.class, username);
     }
 

@@ -1,31 +1,51 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "net.serenity-bdd:serenity-single-page-report:4.0.12"
+        classpath "net.serenity-bdd:serenity-gradle-plugin:4.0.12"
+    }
+}
+
 plugins {
+    id "net.serenity-bdd.serenity-gradle-plugin" version "4.0.12"
     id 'java'
 }
 
-group = 'com.petstore'
-version = '1.0-SNAPSHOT'
+defaultTasks 'clear', 'test', 'aggregate'
+group 'io.petstore.swagger'
+version '1.0-SNAPSHOT'
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(23)
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
-ext {
-    serenityVersion = '4.0.12'
-    cucumberVersion = '7.14.0'
-}
-
 dependencies {
-    // Serenity BDD, Screenplay y Rest
-    implementation "net.serenity-bdd:serenity-core:${serenityVersion}"
-    implementation "net.serenity-bdd:serenity-rest-assured:${serenityVersion}"
-    implementation "net.serenity-bdd:serenity-screenplay:${serenityVersion}"
-    implementation "net.serenity-bdd:serenity-screenplay-rest:${serenityVersion}"
+    implementation 'net.serenity-bdd:serenity-core:4.0.12'
+    implementation 'net.serenity-bdd:serenity-cucumber:4.0.12'
+    implementation 'net.serenity-bdd:serenity-screenplay:4.0.12'
+    implementation 'net.serenity-bdd:serenity-screenplay-rest:4.0.12'
+    implementation 'net.serenity-bdd:serenity-single-page-report:4.0.12'
 
-    // Serenity Cucumber y JUnit 4 (Obligatorio para Runner.java)
-    implementation "net.serenity-bdd:serenity-cucumber:${serenityVersion}"
-    implementation "io.cucumber:cucumber-java:${cucumberVersion}"
-    implementation "io.cucumber:cucumber-junit:${cucumberVersion}"
-    implementation 'junit:junit:4.13.2'
+    implementation 'org.slf4j:slf4j-simple:2.0.9'
+
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    testCompileOnly 'org.projectlombok:lombok:1.18.34'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    testImplementation 'junit:junit:4.13.2'
+
 
     // Apache POI para leer Excel (.xlsx)
     implementation 'org.apache.poi:poi:5.2.3'
@@ -36,8 +56,19 @@ dependencies {
 }
 
 test {
-    useJUnit() // Usar JUnit 4 para ejecutar los runners de Serenity-Cucumber
-    systemProperties['file.encoding'] = 'UTF-8'
+    useJUnit()
+    jvmArgs += [
+            '--add-opens=java.base/java.lang=ALL-UNNAMED',
+            '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
+            '--add-opens=java.base/java.util=ALL-UNNAMED'
+    ]
+}
+
+serenity {
+    testRoot = "io.petstore.swagger.runners"
+    requirementsBaseDir = "src/test/resources/features"
+    reports = ["single-page-html"]
 }
 
 gradle.startParameter.continueOnFailure = true
+test.finalizedBy(aggregate)
