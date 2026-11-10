@@ -17,18 +17,15 @@ ext {
 dependencies {
     // Serenity BDD, Screenplay y Rest
     implementation "net.serenity-bdd:serenity-core:${serenityVersion}"
-    implementation "net.serenity-bdd:serenity-rest:${serenityVersion}"
+    implementation "net.serenity-bdd:serenity-rest-assured:${serenityVersion}"
     implementation "net.serenity-bdd:serenity-screenplay:${serenityVersion}"
     implementation "net.serenity-bdd:serenity-screenplay-rest:${serenityVersion}"
 
-    // Serenity Cucumber
-    implementation "net.serenity-bdd:serenity-cucumber6:${serenityVersion}"
+    // Serenity Cucumber y JUnit 4 (Obligatorio para Runner.java)
+    implementation "net.serenity-bdd:serenity-cucumber:${serenityVersion}"
     implementation "io.cucumber:cucumber-java:${cucumberVersion}"
-    implementation "io.cucumber:cucumber-junit-platform-engine:${cucumberVersion}"
-
-    // JUnit 5 Platform
-    implementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
-    runtimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+    implementation "io.cucumber:cucumber-junit:${cucumberVersion}"
+    implementation 'junit:junit:4.13.2'
 
     // Apache POI para leer Excel (.xlsx)
     implementation 'org.apache.poi:poi:5.2.3'
@@ -39,10 +36,8 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform()
+    useJUnit() // Usar JUnit 4 para ejecutar los runners de Serenity-Cucumber
     systemProperties['file.encoding'] = 'UTF-8'
-    // Asegura que las propiedades del sistema de Serenity se pasen a las pruebas
-    systemProperties['project.build.directory'] = buildDir
 }
 
 gradle.startParameter.continueOnFailure = true

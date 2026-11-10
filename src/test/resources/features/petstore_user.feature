@@ -1,5 +1,5 @@
 #language: es
-Característica: Gestión de usuarios en la API de Petstore
+Característica: Gestion de usuarios en la API de Petstore
   Como usuario de la automatización
   Quiero gestionar un usuario consumiendo los servicios de Petstore
   Para validar el ciclo de vida de creación, consulta y actualización

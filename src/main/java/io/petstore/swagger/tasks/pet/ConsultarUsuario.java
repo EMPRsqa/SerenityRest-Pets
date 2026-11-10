@@ -19,7 +19,7 @@ public class ConsultarUsuario implements Task {
     @Override
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-                Get.to("/user/{username}")
+                Get.resource("/user/{username}")
                         .with(request -> request.pathParam("username", username))
         );
     }

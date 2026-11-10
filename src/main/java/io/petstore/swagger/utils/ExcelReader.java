@@ -7,26 +7,28 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Iterator;
 
 public class ExcelReader {
 
     public static UserModel getDataFromExcel(String filePath, String sheetName) {
         UserModel user = null;
+        DataFormatter formatter = new DataFormatter();
+
         try (FileInputStream fis = new FileInputStream(new File(filePath));
              Workbook workbook = new XSSFWorkbook(fis)) {
 
             Sheet sheet = workbook.getSheet(sheetName);
-            Row row = sheet.getRow(1); // Fila 1 (asumiendo cabecera en fila 0)
+            Row row = sheet.getRow(1); // Fila 1 (Fila 0 es la cabecera)
 
-            int id = (int) row.getCell(0).getNumericCellValue();
-            String username = row.getCell(1).getStringCellValue();
-            String firstName = row.getCell(2).getStringCellValue();
-            String lastName = row.getCell(3).getStringCellValue();
-            String email = row.getCell(4).getStringCellValue();
-            String password = row.getCell(5).getStringCellValue();
-            String phone = row.getCell(6).getStringCellValue();
-            int userStatus = (int) row.getCell(7).getNumericCellValue();
+            // Usamos DataFormatter para leer cualquier celda (texto o número) de forma segura como String o convertimos a int
+            int id = (int) Double.parseDouble(formatter.formatCellValue(row.getCell(0)));
+            String username = formatter.formatCellValue(row.getCell(1));
+            String firstName = formatter.formatCellValue(row.getCell(2));
+            String lastName = formatter.formatCellValue(row.getCell(3));
+            String email = formatter.formatCellValue(row.getCell(4));
+            String password = formatter.formatCellValue(row.getCell(5));
+            String phone = formatter.formatCellValue(row.getCell(6));
+            int userStatus = (int) Double.parseDouble(formatter.formatCellValue(row.getCell(7)));
 
             user = new UserModel(id, username, firstName, lastName, email, password, phone, userStatus);
 

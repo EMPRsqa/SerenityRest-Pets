@@ -6,11 +6,15 @@ import io.petstore.swagger.tasks.pet.ActualizarUsuario;
 import io.petstore.swagger.tasks.pet.ConsultarUsuario;
 import io.petstore.swagger.tasks.pet.CrearUsuario;
 import io.petstore.swagger.utils.ExcelReader;
+import io.cucumber.java.Before;
 import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Cuando;
 import net.serenitybdd.screenplay.Actor;
-import net.serenitybdd.screenplay.abilities.CallAnApi;
+import net.serenitybdd.screenplay.actors.OnStage;
+import net.serenitybdd.screenplay.actors.OnlineCast;
+import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
+import net.serenitybdd.screenplay.rest.abilities.CallAnApi;
 
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorCalled;
@@ -21,6 +25,12 @@ public class PetstoreStepDefinitions {
 
     private UserModel testUser;
     private final String baseUrl = "https://petstore.swagger.io/v2";
+
+    @Before
+    public void setTheStage() {
+        // Inicializa el escenario para que Serenity reconozca los actores
+        OnStage.setTheStage(new OnlineCast());
+    }
 
     @Dado("que el usuario automatizado se conecta a la API de Petstore")
     public void queElUsuarioAutomatizadoSeConectaALaApiDePetstore() {
